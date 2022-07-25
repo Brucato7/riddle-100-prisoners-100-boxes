@@ -5,66 +5,77 @@
 
   <body>
     <div class="container">
-      <ul id="results">
-        </ul>
-        </div>
-        <script>
+      <label for="iterations">How many times should the sim be run?</label>
+      <input id="iterations" value="1000" name="iterations" type="number" step="100" min="100" max="1000000">
+      <button id="runSim">Run Sim</button>
+    </div>
+    <ol id="result"></ol>
+    <script>
 
-          function createRandomBoxes(){
+        function createRandomBoxes(){
             boxes = [];
             let usedNumbers = [];
             for(let i = 1; i<=100; i++){
-              while(boxes[i] == undefined){
+                while(boxes[i] == undefined){
                 let random = Math.floor(Math.random() * 100) + 1;
                 if(!usedNumbers.includes(random)){
-                  boxes[i] = random;
-                  usedNumbers.push(random);
+                    boxes[i] = random;
+                    usedNumbers.push(random);
                 }
-              }
+                }
             }
             return boxes;
-          }
+        }
 
-          function isBoxFound(number, boxes){
+        function isBoxFound(number, boxes){
             let isFound = false
             let temp = number;
             let counter = 0;
             while(counter <= 50){
-              if(boxes[temp] == number) {
+                if(boxes[temp] == number) {
                 isFound = true;
                 break;
-              } else {
+                } else {
                 temp = boxes[temp];
                 counter++;
-              }
+                }
             }
             return isFound;
-          }
+        }
 
-          function runSimulations(iterations){
+        function runSimulations(iterations){
             let successes = 0;
             let failures = 0;
             for(let i = 0; i < iterations; i++){
-              let result = isSuccess();
-              if(result) successes++;
-              else failures++;
+                let result = isSuccess();
+                if(result) successes++;
+                else failures++;
             }
-            console.log("There were " + successes + " successes and " + failures + " failures");
-          }
+            return "There were " + successes + " successes and " + failures + " failures";
+        }
 
-          function isSuccess(){
+        function isSuccess(){
             let boxes = createRandomBoxes();
             let isSuccess = true;
             for(let i = 1; i<=100; i++){
-              if(!isBoxFound(i,boxes)){
+                if(!isBoxFound(i,boxes)){
                 isSuccess = false;
                 break;
-              }
+                }
             }
             return isSuccess;
-          }
-
-          runSimulations(10000);
-          </script>
-          </body>
-          </html>
+        }
+        
+        document.getElementById("runSim").addEventListener("click",function(){
+            this.disabled = true;
+            let iterations = document.getElementById("iterations").value;
+            let result = runSimulations(iterations);
+            let list = document.getElementById("result");
+            let li = document.createElement('li');
+            li.textContent = result;
+            list.append(li);            
+        })
+        
+    </script>
+</body>
+</html>
