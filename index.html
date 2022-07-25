@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+  <title>100 Loop Riddle</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <ul id="results">
+        </ul>
+        </div>
+        <script>
+
+          function createRandomBoxes(){
+            boxes = [];
+            let usedNumbers = [];
+            for(let i = 1; i<=100; i++){
+              while(boxes[i] == undefined){
+                let random = Math.floor(Math.random() * 100) + 1;
+                if(!usedNumbers.includes(random)){
+                  boxes[i] = random;
+                  usedNumbers.push(random);
+                }
+              }
+            }
+            return boxes;
+          }
+
+          function isBoxFound(number, boxes){
+            let isFound = false
+            let temp = number;
+            let counter = 0;
+            while(counter <= 50){
+              if(boxes[temp] == number) {
+                isFound = true;
+                break;
+              } else {
+                temp = boxes[temp];
+                counter++;
+              }
+            }
+            return isFound;
+          }
+
+          function runSimulations(iterations){
+            let successes = 0;
+            let failures = 0;
+            for(let i = 0; i < iterations; i++){
+              let result = isSuccess();
+              if(result) successes++;
+              else failures++;
+            }
+            console.log("There were " + successes + " successes and " + failures + " failures");
+          }
+
+          function isSuccess(){
+            let boxes = createRandomBoxes();
+            let isSuccess = true;
+            for(let i = 1; i<=100; i++){
+              if(!isBoxFound(i,boxes)){
+                isSuccess = false;
+                break;
+              }
+            }
+            return isSuccess;
+          }
+
+          runSimulations(10000);
+          </script>
+          </body>
+          </html>
