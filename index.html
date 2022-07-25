@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <head>
-  <title>100 Loop Riddle</title>
+  <title>100 Prisoner 100 Boxes Simulation</title>
   </head>
 
   <body>
     <div class="container">
+        <p>This is a simulation for the 100 prisoners 100 boxes riddle.</p>
+        <p>Quick Summary: 100 Prisoners are assigned numbers 1 through 100. There is a room with 100 boxes labeled 1 through 100. Inside these boxes the numbers assigned to the prisoners are randomly placed. Each prisoner can go into the room and open 50 boxes in an attempt to find their own number. If all 100 prisoners find their own number they can all go free.</p>
+      <p>This problem is interesting because, by just randomly selecting boxes, the chance that all 100 prisoners find their number is nearly 0. However, by following a pattern, the chance that all prisoners find their number increases to about 30%.</p>
+      <p> The pattern works like this: Each prisoner should choose the box labeled with their number. They should next check the box labeled with the number they find inside. Continue this pattern until they find the number inside. This creates a loop. As long as there isn't a loop greater than 50 elements the prisoners walk free. This Simulation follows that process.</p>
+      <p>For more information checkout this video: <a href="https://www.youtube.com/watch?v=iSNsgj1OCLA">The Riddle That Seems Impossible Even If You Know The Answer</a></p>  
       <label for="iterations">How many times should the sim be run?</label>
       <input id="iterations" value="1000" name="iterations" type="number" step="100" min="100" max="1000000">
       <button id="runSim">Run Sim</button>
