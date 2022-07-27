@@ -12,7 +12,8 @@
       <p>For more information checkout this video: <a href="https://www.youtube.com/watch?v=iSNsgj1OCLA">The Riddle That Seems Impossible Even If You Know The Answer</a></p>  
       <label for="iterations">How many times should the sim be run?</label>
       <input id="iterations" value="1000" name="iterations" type="number" step="100" min="100" max="1000000">
-      <button id="runSim">Run Sim</button>
+      <button id="runPattern">Simulate Pattern</button>
+      <button id="runRandom">Simulate Random</button>
     </div>
     <ol id="result"></ol>
     <script>
@@ -32,10 +33,10 @@
             return boxes;
         }
 
-        function isBoxFound(number, boxes){
+        function isBoxFoundPattern(number, boxes){
             let isFound = false
             let temp = number;
-            let counter = 0;
+            let counter = 1;
             while(counter <= 50){
                 if(boxes[temp] == number) {
                 isFound = true;
@@ -48,11 +49,27 @@
             return isFound;
         }
 
-        function runSimulations(iterations){
+        function isBoxFoundRandom(number, boxes){
+            let isFound = false;
+            let checkedBoxes = [];
+            let counter = 1;
+            while(counter <= 50){
+                let rand = Math.floor(Math.random * 100) + 1;
+                if(boxes[rand] == number) {
+                    isFound = true;
+                    break;
+                } else {
+                    counter++;
+                }
+            }
+            return isFound;
+        }
+
+        function runSimulations(iterations, searchMethod){
             let successes = 0;
             let failures = 0;
             for(let i = 0; i < iterations; i++){
-                let result = isSuccess();
+                let result = isSuccess(searchMethod);
                 if(result) successes++;
                 else failures++;
             }
@@ -67,11 +84,11 @@
             });
         }
 
-        function isSuccess(){
+        function isSuccess(searchMethod){
             let boxes = createRandomBoxes();
             let isSuccess = true;
             for(let i = 1; i<=100; i++){
-                if(!isBoxFound(i,boxes)){
+                if(!searchMethod(i,boxes)){
                 isSuccess = false;
                 break;
                 }
@@ -84,16 +101,26 @@
             let li = document.createElement('li');
             li.textContent = result;
             list.append(li);
-            document.getElementById("runSim").disabled = false;
+            document.getElementById("runPattern").disabled = false;
+            document.getElementById("runRandom").disabled = false;
             
         }
         
-        document.getElementById("runSim").addEventListener("click", function(){
+        document.getElementById("runPattern").addEventListener("click", function(){
             this.disabled = true;
+            document.getElementById("runRandom").disabled = true;
             let iterations = document.getElementById("iterations").value;
-            runSimulations(iterations)
+            runSimulations(iterations, isBoxFoundPattern)
                 .then(result => handleResults(result));                
-        })
+        });
+
+        document.getElementById("runRandom").addEventListener("click", function(){
+            this.disabled = true;
+            document.getElementById("runPattern").disabled = true;
+            let iterations = document.getElementById("iterations").value;
+            runSimulations(iterations, isBoxFoundRandom)
+                .then(result => handleResults(result));                
+        });
         
     </script>
 </body>
