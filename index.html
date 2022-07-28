@@ -11,7 +11,7 @@
       <p> The pattern works like this: Each prisoner should choose the box labeled with their number. They should next check the box labeled with the number they find inside. Continue this pattern until they find the number inside. This creates a loop. As long as there isn't a loop greater than 50 elements the prisoners walk free. This Simulation follows that process.</p>
       <p>For more information checkout this video: <a href="https://www.youtube.com/watch?v=iSNsgj1OCLA">The Riddle That Seems Impossible Even If You Know The Answer</a></p>  
       <label for="iterations">How many times should the sim be run?</label>
-      <input id="iterations" value="1000" name="iterations" type="number" step="100" min="100" max="1000000">
+      <input id="iterations" value="1" name="iterations" type="number" step="100" min="1" max="1000000">
       <button id="runPattern">Simulate Pattern</button>
       <button id="runRandom">Simulate Random</button>
     </div>
@@ -38,6 +38,7 @@
             let temp = number;
             let counter = 1;
             while(counter <= 50){
+                // console.log(`prisoner ${number} -> box ${temp} => ${boxes[temp]}`);
                 if(boxes[temp] == number) {
                 isFound = true;
                 break;
@@ -53,8 +54,17 @@
             let isFound = false;
             let checkedBoxes = [];
             let counter = 1;
+            let rand = 0;
             while(counter <= 50){
-                let rand = Math.floor(Math.random * 100) + 1;
+                let newNumber = false;
+                while(!newNumber){
+                    rand = Math.floor(Math.random() * 100) + 1;
+                    if(!checkedBoxes.includes(rand)) {
+                        checkedBoxes.push(rand);
+                        newNumber = true;
+                    }
+                }
+                // console.log(`prisoner ${number} -> box ${rand} => ${boxes[rand]}`);
                 if(boxes[rand] == number) {
                     isFound = true;
                     break;
